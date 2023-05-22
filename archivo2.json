@@ -1,0 +1,24 @@
+{
+  "initial": "S",
+  "terminals": [
+    "b"
+  ],
+  "nonTerminals": [
+    "S",
+    "C"
+  ],
+  "productions": [
+    {
+      "left": "S",
+      "right": [
+        "C"
+      ]
+    },
+    {
+      "left": "C",
+      "right": [
+        "b"
+      ]
+    }
+  ]
+}
