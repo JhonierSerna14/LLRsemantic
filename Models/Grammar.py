@@ -54,6 +54,7 @@ class Grammar:
         for production in self._productions:
             print(f"{indent}  Left: {production.left}")
             print(f"{indent}  Right: {production.right}")
+            print(f"{indent}  Point: {production.pointIndex}")
         print(f"{indent}First: {self._first}")
         print(f"{indent}Initial: {self._initial}")
         print(f"{indent}Terminals: {self._terminals}")

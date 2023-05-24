@@ -1,6 +1,7 @@
 import copy
-from Models.LLR import LLR
+
 from Controller.NodeController import NodeController
+from Models.LLR import LLR
 
 
 class LLRController:
@@ -24,3 +25,19 @@ class LLRController:
         start.newNode(copy.deepcopy([self._LLR.grammar.productions[0]]))
         self._LLR.start = start.Node
         self._LLR.start.traverse_dfs()
+
+    def obtainNumberOfStates(self):
+        start = self.LLR.start
+        if start is None:
+            return 0
+        return self._countStates(start, 0)
+
+    def _countStates(self, node, count) -> int:
+        if len(node.edge) == 0:
+            return count + 1
+        for index, edge in enumerate(node.edge):
+            if index == 0:
+                count = self._countStates(edge.destination, count + 1)
+            else:
+                count = self._countStates(edge.destination, count)
+        return count
