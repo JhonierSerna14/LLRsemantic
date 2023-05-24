@@ -32,8 +32,9 @@ class NodeController:
     def newNode(self, productions: [Production]):
         for p in productions:
             p.pointIndex = p.pointIndex + 1
-        if self.verifyExistence(copy.deepcopy(productions)):
-            self._Visited.append(productions)
+        response = self.verifyExistence(copy.deepcopy(productions))
+        if response[0]:
+            self._Visited.append([productions, self])
             self.createNode(productions)
             self.depth()
 
@@ -47,7 +48,7 @@ class NodeController:
                     self._Node.grammar.productions.append(p)
             elif not self.exists(p):
                 self._Node.grammar.productions.append(p)
-                self._Node.acepted = self.findAcepted(p)
+                self._Node._allowed = self.findAcepted(p)
 
     def depth(self):
         transitions = self.findTransitions()
@@ -56,7 +57,8 @@ class NodeController:
             for p in self._Node.grammar.productions:
                 if p.pointIndex < len(p.right) and p.right[p.pointIndex] == tr:
                     productionsToTransition.append(p)
-            if self.verifyExistence(copy.deepcopy(productionsToTransition)):
+            response = self.verifyExistence(copy.deepcopy(productionsToTransition))
+            if response[0]:
                 node = NodeController(self._Visited)
                 node._OriginalGrammar = copy.deepcopy(self._OriginalGrammar)
                 node.newNode(copy.deepcopy(productionsToTransition))
@@ -65,25 +67,28 @@ class NodeController:
                 edge.destination = node._Node
                 edge.transition = tr
                 self._Node.edge.append(edge)
-                # node._Node.edge.append(edge)
             else:
-                # Loop
-                pass
+                edge = Edge()
+                edge.origin = self._Node
+                edge.destination = response[1]
+                edge.transition = tr
 
-    def verifyExistence(self, productions: [Production]) -> bool:
+    def verifyExistence(self, productions: [Production]) -> (bool, Node):
         for p in productions:
             p.pointIndex = p.pointIndex + 1
-        comprobando = 0
+        existenceAux = 0
+        node = None
         for v in self._Visited:
-            if (len(v) == len(productions)):
+            node = v[1]
+            if (len(v[0]) == len(productions)):
                 for i in productions:
-                    for j in v:
+                    for j in v[0]:
                         if (i.left == j.left and i.right == j.right and i.pointIndex == j.pointIndex):
-                            comprobando = comprobando + 1
+                            existenceAux = existenceAux + 1
 
-        if comprobando < len(productions):
-            return True
-        return False
+        if existenceAux < len(productions):
+            return (True, node)
+        return (False, None)
 
     def findTransitions(self):
         trans = []

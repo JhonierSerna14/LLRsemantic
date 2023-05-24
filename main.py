@@ -31,4 +31,4 @@ def initializeWindow():
 
 if __name__ == '__main__':
     openJson()
-    #initializeWindow()
+    # initializeWindow()
