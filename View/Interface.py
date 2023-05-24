@@ -1,4 +1,5 @@
 import json
+import random
 import tkinter
 from tkinter import messagebox, filedialog
 
@@ -6,7 +7,7 @@ from Controller.GrammarController import GrammarController
 from Controller.LLRController import LLRController
 
 
-def __obtainPossibleStatePositions() -> list[tuple]:
+def _obtainPossibleStatePositions() -> list[tuple]:
     """Returns the possible positions where a state can be drawn"""
     return [(50, 50), (200, 100), (350, 50), (500, 100), (650, 50), (800, 100), (950, 50), (1100, 100),
             (100, 200), (250, 250), (400, 200), (550, 250), (700, 200), (850, 250), (1000, 200), (1150, 250),
@@ -62,9 +63,19 @@ class Interface(tkinter.Frame):
             self.canvas.destroy()
             self.__createWidgets()
             self.__drawAutomata()
-
         except Exception:
             messagebox.showerror(title='Error', message=f'File could not be opened\n{Exception}')
 
     def __drawAutomata(self):
         """Takes the automata and draw it in the root window"""
+        if self._llrController.obtainNumberOfStates() > 32:
+            messagebox.showwarning(title='Warning', message=f'Automata very large to draw')
+            return
+        llrStates = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+        possiblePositions = _obtainPossibleStatePositions()
+        for state in llrStates:
+            randomPosition = random.choice(possiblePositions)
+            # draw state in possiblePositions in randomNumber position
+            possiblePositions.remove(randomPosition)
+
+
