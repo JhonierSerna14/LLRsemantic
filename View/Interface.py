@@ -33,7 +33,7 @@ class Interface(tkinter.Frame):
 
     def __createWidgets(self):
         """Here all the elements of the window are created"""
-        self.canvas = tkinter.Canvas(self, width=600, height=400)
+        self.canvas = tkinter.Canvas(self, width=1200, height=600)
         self.img_background = tkinter.PhotoImage(file="./Assets/background.png")
         self.canvas.create_image(0, 0, image=self.img_background, anchor="nw")
         self.canvas.pack(fill="both", expand=True)
@@ -60,6 +60,8 @@ class Interface(tkinter.Frame):
                 grammarData = json.load(f)
             self._llrController.LLR.grammar = self._grammarController.createGrammar(grammarData)
             self._llrController.startNode()
+            self._llrController.putNameOfStates()
+            # self._llrController.LLR.start.traverse_dfs()
             self.canvas.destroy()
             self.__createWidgets()
             self.__drawAutomata()
@@ -77,5 +79,4 @@ class Interface(tkinter.Frame):
             randomPosition = random.choice(possiblePositions)
             # draw state in possiblePositions in randomNumber position
             possiblePositions.remove(randomPosition)
-
 

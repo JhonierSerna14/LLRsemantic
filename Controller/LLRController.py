@@ -40,3 +40,22 @@ class LLRController:
             else:
                 count = self._countStates(edge.destination, count)
         return count
+
+    def putNameOfStates(self):
+        start = self.LLR.start
+        if start is None:
+            return
+        self._nameStates(start, 0)
+        start.traverse_dfs()
+
+    def _nameStates(self, node, count) -> int:
+        node.name = "I" + str(count)
+        if len(node.edge) == 0:
+            node.name = "I" + str(count)
+            return count + 1
+        for index, edge in enumerate(node.edge):
+            if index == 0:
+                count = self._nameStates(edge.destination, count + 1)
+            else:
+                count = self._nameStates(edge.destination, count)
+        return count

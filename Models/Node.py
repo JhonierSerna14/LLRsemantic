@@ -58,7 +58,7 @@ class Node:
 
     def print_grammar(self, indent=""):
         print(f"{indent}Node: {self._name}")
-        #self._grammar.print_info(indent + "  ")
+        self._grammar.print_info(indent + "  ")
         print(f"{indent}Edges:")
         for edge in self._edge:
             print(f"{indent}  Origin: {edge.origin.name}")
