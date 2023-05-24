@@ -33,8 +33,7 @@ class NodeController:
         for p in productions:
             p.pointIndex = p.pointIndex + 1
         if self.verifyExistence(copy.deepcopy(productions)):
-            for v in productions:
-                self._Visited.append(v)
+            self._Visited.append(productions)
             self.createNode(productions)
             self.depth()
 
@@ -48,7 +47,7 @@ class NodeController:
                     self._Node.grammar.productions.append(p)
             elif not self.exists(p):
                 self._Node.grammar.productions.append(p)
-                self._Node.acepted = "TRUE"
+                self._Node.acepted = self.findAcepted(p)
 
     def depth(self):
         transitions = self.findTransitions()
@@ -66,24 +65,22 @@ class NodeController:
                 edge.destination = node._Node
                 edge.transition = tr
                 self._Node.edge.append(edge)
-                # print("Nodo de origen:")
-                # for o in edge.origin.grammar.productions:
-                #     print(o.left, "->", o.right, ":", o.pointIndex)
-                # print("Transicion con: ", edge.transition)
-                # print("Nodo de destino:")
-                # for o in edge.destination.grammar.productions:
-                #     print(o.left, "->", o.right, ":", o.pointIndex)
-
                 # node._Node.edge.append(edge)
+            else:
+                # Loop
+                pass
 
     def verifyExistence(self, productions: [Production]) -> bool:
         for p in productions:
             p.pointIndex = p.pointIndex + 1
         comprobando = 0
-        for j in productions:
-            for i in self._Visited:
-                if (i.left == j.left and i.right == j.right and i.pointIndex == j.pointIndex):
-                    comprobando = comprobando + 1
+        for v in self._Visited:
+            if (len(v) == len(productions)):
+                for i in productions:
+                    for j in v:
+                        if (i.left == j.left and i.right == j.right and i.pointIndex == j.pointIndex):
+                            comprobando = comprobando + 1
+
         if comprobando < len(productions):
             return True
         return False
@@ -107,3 +104,8 @@ class NodeController:
             if p == production:
                 return True
         return False
+
+    def findAcepted(self, production: Production) -> str:
+        for original in self.OriginalGrammar.productions:
+            if (original.left == production.left and original.right == production.right):
+                return self.OriginalGrammar.productions.index(original)

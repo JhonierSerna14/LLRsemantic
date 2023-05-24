@@ -4,7 +4,6 @@ from Models.Production import Production
 class Grammar:
     def __init__(self):
         self._productions = [Production()]
-        self._first = {}
         self._terminals = []
         self._nonTerminals = []
         self._initial = ""
@@ -40,22 +39,3 @@ class Grammar:
     @productions.setter
     def productions(self, value):
         self._productions = value
-
-    @property
-    def first(self):
-        return self._first
-
-    @first.setter
-    def first(self, value):
-        self._first = value
-
-    def print_info(self, indent=""):
-        print(f"{indent}Productions:")
-        for production in self._productions:
-            print(f"{indent}  Left: {production.left}")
-            print(f"{indent}  Right: {production.right}")
-            print(f"{indent}  Point: {production.pointIndex}")
-        print(f"{indent}First: {self._first}")
-        print(f"{indent}Initial: {self._initial}")
-        print(f"{indent}Terminals: {self._terminals}")
-        print(f"{indent}Non-terminals: {self._nonTerminals}")

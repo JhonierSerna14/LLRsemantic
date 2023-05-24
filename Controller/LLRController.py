@@ -19,12 +19,10 @@ class LLRController:
 
     def startNode(self):
         start = NodeController(self._Visited)
-        start.Node.name = self._LLR.cont
         start.OriginalGrammar = copy.deepcopy(self._LLR.grammar)
         self._LLR.grammar.productions[0].pointIndex = -1
         start.newNode(copy.deepcopy([self._LLR.grammar.productions[0]]))
         self._LLR.start = start.Node
-        self._LLR.start.traverse_dfs()
 
     def obtainNumberOfStates(self):
         start = self.LLR.start

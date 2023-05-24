@@ -4,15 +4,6 @@ class Production:
         self._left = ""
         self._right = []
         self._pointIndex = 0
-        self._symbols = []
-
-    @property
-    def symbols(self):
-        return self._symbols
-
-    @symbols.setter
-    def symbols(self, value):
-        self._symbols = value
 
     @property
     def right(self):
