@@ -26,7 +26,6 @@ class GrammarController:
             production.right = p['right']
             self._grammar.productions.append(production)
         self.expandGrammar()
-        # self._grammar.print_info()
         return self._grammar
 
     def expandGrammar(self):

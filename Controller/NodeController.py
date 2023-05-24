@@ -6,20 +6,12 @@ from Models.Production import Production
 
 
 class NodeController:
-    def __init__(self):
+    def __init__(self, visited):
         self._Node = Node()
         self._OriginalGrammar: Grammar
         self._Grammar = Grammar()
-        self._Visited: [Production]
+        self._Visited: [Production] = visited
         self._Grammar.productions.pop()
-
-    @property
-    def Visited(self):
-        return self._Visited
-
-    @Visited.setter
-    def Visited(self, value):
-        self._Visited = value
 
     @property
     def Node(self) -> Node:
@@ -38,20 +30,11 @@ class NodeController:
         self._OriginalGrammar = value
 
     def newNode(self, productions: [Production]):
-        # print("En visited antes:")
-        # for v in self._Visited:
-        #     print("{} -> {} punto en: {}".format(v.left, v.right, v.pointIndex))
-        # print("***************************************************")
         for p in productions:
             p.pointIndex = p.pointIndex + 1
-            #print("Voy a visitar: {} -> {} con punto en: {}".format(p.left, p.right, p.pointIndex))
         if self.verifyExistence(copy.deepcopy(productions)):
-            print("asdfasdfasdfasdfasdf")
-            self._Visited = self._Visited + productions
-            # print("En visited despues:")
-            # for v in self._Visited:
-            #     print("{} -> {} punto en: {}".format(v.left, v.right, v.pointIndex))
-            # print("***************************************************")
+            for v in productions:
+                self._Visited.append(v)
             self.createNode(productions)
             self.depth()
 
@@ -75,22 +58,27 @@ class NodeController:
                 if p.pointIndex < len(p.right) and p.right[p.pointIndex] == tr:
                     productionsToTransition.append(p)
             if self.verifyExistence(copy.deepcopy(productionsToTransition)):
-                print("Este es el otro hahahahaha")
-                node = NodeController()
+                node = NodeController(self._Visited)
                 node._OriginalGrammar = copy.deepcopy(self._OriginalGrammar)
-                node.Visited = copy.deepcopy(self._Visited)
                 node.newNode(copy.deepcopy(productionsToTransition))
                 edge = Edge()
                 edge.origin = self._Node
                 edge.destination = node._Node
                 edge.transition = tr
                 self._Node.edge.append(edge)
+                # print("Nodo de origen:")
+                # for o in edge.origin.grammar.productions:
+                #     print(o.left, "->", o.right, ":", o.pointIndex)
+                # print("Transicion con: ", edge.transition)
+                # print("Nodo de destino:")
+                # for o in edge.destination.grammar.productions:
+                #     print(o.left, "->", o.right, ":", o.pointIndex)
+
                 # node._Node.edge.append(edge)
 
     def verifyExistence(self, productions: [Production]) -> bool:
         for p in productions:
             p.pointIndex = p.pointIndex + 1
-            #print("Voy a visitar: {} -> {} con punto en: {}".format(p.left, p.right, p.pointIndex))
         comprobando = 0
         for j in productions:
             for i in self._Visited:
@@ -99,6 +87,7 @@ class NodeController:
         if comprobando < len(productions):
             return True
         return False
+
     def findTransitions(self):
         trans = []
         for p in self._Node.grammar.productions:
