@@ -15,6 +15,7 @@ def openJson():
     g = grammarController.createGrammar(data)
     llrController.LLR.grammar = g
     llrController.startNode()
+    a = llrController.obtainEdges()
 
 
 def initializeWindow():
@@ -30,5 +31,5 @@ def initializeWindow():
 
 
 if __name__ == '__main__':
-    #openJson()
+    # openJson()
     initializeWindow()

@@ -1,6 +1,7 @@
 import json
 import random
 import tkinter
+import traceback
 from tkinter import messagebox, filedialog
 
 from Controller.GrammarController import GrammarController
@@ -15,7 +16,7 @@ def _obtainPossibleStatePositions() -> list[tuple]:
             (100, 500), (250, 550), (400, 500), (550, 550), (700, 500), (850, 550), (1000, 500), (1150, 550)]
 
 
-def __obtainStateSize() -> int:
+def _obtainStateSize() -> int:
     """Returns the size of the states"""
     return 40
 
@@ -66,17 +67,40 @@ class Interface(tkinter.Frame):
             self.__createWidgets()
             self.__drawAutomata()
         except Exception:
-            messagebox.showerror(title='Error', message=f'File could not be opened\n{Exception}')
+            errorMessage = traceback.format_exc()
+            messagebox.showerror(title='Error', message=f'File could not be opened\n{errorMessage}')
 
     def __drawAutomata(self):
         """Takes the automata and draw it in the root window"""
         if self._llrController.obtainNumberOfStates() > 32:
             messagebox.showwarning(title='Warning', message=f'Automata very large to draw')
             return
-        llrStates = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+        llrStates = self._llrController.obtainStates()
+        llrEdges = self._llrController.obtainEdges()
         possiblePositions = _obtainPossibleStatePositions()
+        stateSize = _obtainStateSize()
+        statePositions: dict = {}
         for state in llrStates:
             randomPosition = random.choice(possiblePositions)
             # draw state in possiblePositions in randomNumber position
+            self.canvas.create_oval(randomPosition[0] - stateSize, randomPosition[1] - stateSize,
+                                    randomPosition[0] + stateSize, randomPosition[1] + stateSize, outline="black",
+                                    fill="pink", width=2)
+            self.canvas.create_text(randomPosition[0], randomPosition[1], text=state.name, font=5)
+            statePositions[state] = randomPosition
             possiblePositions.remove(randomPosition)
 
+        for edge in llrEdges:
+            originPosition = statePositions[edge.origin]
+            destinationPosition = statePositions[edge.destination]
+            if edge.origin != edge.destination:
+                self.canvas.create_line(originPosition[0], originPosition[1], destinationPosition[0],
+                                        destinationPosition[1], arrow=tkinter.LAST, width=1.5, fill="white")
+                puntoMedio = (
+                    (originPosition[0] + originPosition[1]) // 2,
+                    (destinationPosition[0] + destinationPosition[1]) // 2)
+                self.canvas.create_text(puntoMedio[0] + 5, puntoMedio[1] + 5, text=edge.transition, fill="white")
+            else:
+                self.canvas.create_arc(originPosition[0] - 25, originPosition[1] - 40, originPosition[0] + 25,
+                                       originPosition[1] - 70, start=0, extent=180, style=tkinter.ARC, width=1.5,
+                                       outline="#606060")

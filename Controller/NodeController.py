@@ -34,7 +34,7 @@ class NodeController:
             p.pointIndex = p.pointIndex + 1
         response = self.verifyExistence(copy.deepcopy(productions))
         if response[0]:
-            self._Visited.append([productions, self])
+            self._Visited.append([productions, self._Node])
             self.createNode(productions)
             self.depth()
 
@@ -72,7 +72,8 @@ class NodeController:
                 edge.origin = self._Node
                 edge.destination = response[1]
                 edge.transition = tr
-
+                response[1].grammar.print_info()
+                #self._Node.edge.append(edge)
     def verifyExistence(self, productions: [Production]) -> (bool, Node):
         for p in productions:
             p.pointIndex = p.pointIndex + 1
@@ -88,7 +89,7 @@ class NodeController:
 
         if existenceAux < len(productions):
             return (True, node)
-        return (False, None)
+        return (False, node)
 
     def findTransitions(self):
         trans = []
