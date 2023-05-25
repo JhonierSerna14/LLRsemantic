@@ -1,23 +1,47 @@
 {
   "initial": "S",
   "terminals": [
-    "b"
+    "id",
+    "*",
+    "="
   ],
   "nonTerminals": [
     "S",
-    "C"
+    "L",
+    "R"
   ],
   "productions": [
     {
       "left": "S",
       "right": [
-        "C"
+        "L",
+        "=",
+        "R"
       ]
     },
     {
-      "left": "C",
+      "left": "S",
       "right": [
-        "b"
+        "R"
+      ]
+    },
+    {
+      "left": "L",
+      "right": [
+        "*",
+        "R"
+      ]
+    },
+    {
+      "left": "L",
+      "right": [
+        "id"
+      ]
+    },
+    {
+      "left": "R",
+      "right": [
+        "L"
       ]
     }
   ]

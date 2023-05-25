@@ -21,6 +21,12 @@ def _obtainStateSize() -> int:
     return 40
 
 
+def _calculateMiddlePoint(position1: tuple, position2: tuple) -> tuple:
+    xPosition = (position1[0] + position2[0]) // 2
+    yPosition = (position1[1] + position2[1]) // 2
+    return (xPosition, yPosition)
+
+
 class Interface(tkinter.Frame):
 
     def __init__(self, root: tkinter.Tk):
@@ -80,27 +86,28 @@ class Interface(tkinter.Frame):
         possiblePositions = _obtainPossibleStatePositions()
         stateSize = _obtainStateSize()
         statePositions: dict = {}
+
         for state in llrStates:
             randomPosition = random.choice(possiblePositions)
-            # draw state in possiblePositions in randomNumber position
+            color = "green" if state.allowed is not None else "pink"
             self.canvas.create_oval(randomPosition[0] - stateSize, randomPosition[1] - stateSize,
                                     randomPosition[0] + stateSize, randomPosition[1] + stateSize, outline="black",
-                                    fill="pink", width=2)
-            self.canvas.create_text(randomPosition[0], randomPosition[1], text=state.name, font=5)
-            statePositions[state] = randomPosition
+                                    fill=color, width=2.5)
+            self.canvas.create_text(randomPosition[0], randomPosition[1], text=state.name,
+                                    font=("Verdana", 25))
+            statePositions[state.name] = randomPosition
             possiblePositions.remove(randomPosition)
 
         for edge in llrEdges:
-            originPosition = statePositions[edge.origin]
-            destinationPosition = statePositions[edge.destination]
-            if edge.origin != edge.destination:
+            originPosition = statePositions[edge.origin.name]
+            destinationPosition = statePositions[edge.destination.name]
+            if edge.origin.name != edge.destination.name:
                 self.canvas.create_line(originPosition[0], originPosition[1], destinationPosition[0],
-                                        destinationPosition[1], arrow=tkinter.LAST, width=1.5, fill="white")
-                puntoMedio = (
-                    (originPosition[0] + originPosition[1]) // 2,
-                    (destinationPosition[0] + destinationPosition[1]) // 2)
-                self.canvas.create_text(puntoMedio[0] + 5, puntoMedio[1] + 5, text=edge.transition, fill="white")
+                                        destinationPosition[1], arrow=tkinter.LAST, width=1.75, fill="white")
+                middlePoint = _calculateMiddlePoint(originPosition, destinationPosition)
+                self.canvas.create_text(middlePoint[0], middlePoint[1], text=edge.transition,
+                                        font=("Times New Roman", 20), fill="#fbfbfb")
             else:
                 self.canvas.create_arc(originPosition[0] - 25, originPosition[1] - 40, originPosition[0] + 25,
                                        originPosition[1] - 70, start=0, extent=180, style=tkinter.ARC, width=1.5,
-                                       outline="#606060")
+                                       outline="white")

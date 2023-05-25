@@ -7,16 +7,16 @@ class Node:
         self._name = ""
         self._grammar = Grammar()
         self._edge = [Edge()]
-        self._allowed = ""
+        self._allowed = None
         self._edge.pop()
         self._grammar.productions.pop()
 
     @property
-    def acepted(self):
+    def allowed(self):
         return self._allowed
 
-    @acepted.setter
-    def acepted(self, value):
+    @allowed.setter
+    def allowed(self, value):
         self._allowed = value
 
     @property
