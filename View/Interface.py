@@ -68,7 +68,7 @@ class Interface(tkinter.Frame):
             self._llrController.LLR.grammar = self._grammarController.createGrammar(grammarData)
             self._llrController.startNode()
             self._llrController.putNameOfStates()
-            # self._llrController.LLR.start.traverse_dfs()
+            self._llrController.LLR.start.traverse_dfs()
             self.canvas.destroy()
             self.__createWidgets()
             self.__drawAutomata()
@@ -89,12 +89,16 @@ class Interface(tkinter.Frame):
 
         for state in llrStates:
             randomPosition = random.choice(possiblePositions)
-            color = "green" if state.allowed is not None else "pink"
+            allowed = state.allowed is not None
+            color = "green" if allowed else "pink"
             self.canvas.create_oval(randomPosition[0] - stateSize, randomPosition[1] - stateSize,
                                     randomPosition[0] + stateSize, randomPosition[1] + stateSize, outline="black",
                                     fill=color, width=2.5)
             self.canvas.create_text(randomPosition[0], randomPosition[1], text=state.name,
                                     font=("Verdana", 25))
+            if allowed:
+                self.canvas.create_text(randomPosition[0] - stateSize, randomPosition[1] - stateSize,
+                                        text=state.allowed, font=("Verdana", 25))
             statePositions[state.name] = randomPosition
             possiblePositions.remove(randomPosition)
 
