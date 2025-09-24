@@ -313,56 +313,6 @@ graph TD
     H --> I
     H --> G
 ```
+⚡ Desarrollado con Python y ❤️
 
-## 🤝 Contributing
-
-We welcome contributions to improve the LLR Semantic Analyzer! Here's how you can help:
-
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes with proper documentation
-4. Test thoroughly with various grammar files
-5. Submit a pull request
-
-### Contribution Guidelines
-
-- **Code Style**: Follow existing code patterns and documentation standards
-- **Testing**: Include test cases for new features
-- **Documentation**: Update README and code comments as needed
-- **Error Handling**: Implement robust error handling for user inputs
-
-### Areas for Enhancement
-
-- [ ] **LR(1) Support**: Extend to LR(1) parsing with lookahead
-- [ ] **Parse Table Generation**: Output parsing action/goto tables
-- [ ] **Grammar Validation**: Enhanced grammar property checking
-- [ ] **Export Features**: Save automaton diagrams as images
-- [ ] **Performance Optimization**: Handle very large grammars efficiently
-- [ ] **Interactive Parsing**: Step-by-step parse demonstrations
-
-### Bug Reports
-
-When reporting bugs, please include:
-- Operating system and Python version
-- Grammar file that caused the issue
-- Error messages or unexpected behavior description
-- Steps to reproduce the problem
-
----
-
-## 📄 License
-
-This project is available for educational and research purposes. Please cite appropriately when using in academic work.
-
-## 🙋‍♂️ Support
-
-For questions, suggestions, or issues:
-- Open an issue on GitHub
-- Check existing documentation and examples
-- Review the code comments for implementation details
-
----
-
-**Happy Parsing! 🚀**
+🌟 ¡Dale una estrella si te gusta el proyecto! ⭐
