@@ -295,24 +295,6 @@ LLRsemantic/
 └── README.md            # This documentation
 ```
 
-### Module Dependencies
-
-```mermaid
-graph TD
-    A[main.py] --> B[Interface]
-    B --> C[LLRController]
-    B --> D[GrammarController]
-    C --> E[NodeController]
-    C --> F[LLR Model]
-    D --> G[Grammar Model]
-    E --> H[Node Model]
-    E --> I[Edge Model]
-    E --> J[Production Model]
-    F --> H
-    G --> J
-    H --> I
-    H --> G
-```
 ⚡ Desarrollado con Python y ❤️
 
 🌟 ¡Dale una estrella si te gusta el proyecto! ⭐
