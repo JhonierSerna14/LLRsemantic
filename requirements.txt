@@ -1,0 +1,24 @@
+# LLR Semantic Analyzer - Dependencies
+# 
+# This project uses only Python standard library modules.
+# No external dependencies are required for installation.
+#
+# Standard library modules used:
+# - tkinter: GUI framework (included with Python)
+# - json: Grammar file parsing
+# - copy: Deep copying for state management  
+# - random: State positioning in visualization
+# - traceback: Error reporting and debugging
+#
+# Python version requirement: 3.8+
+#
+# To run the application:
+# python main.py
+#
+# Note: If tkinter is not available on your system (rare in modern Python installations),
+# you may need to install it separately depending on your OS:
+# 
+# Ubuntu/Debian: sudo apt-get install python3-tk
+# CentOS/RHEL: sudo yum install tkinter
+# macOS: tkinter is included with Python from python.org
+# Windows: tkinter is included with Python installer
